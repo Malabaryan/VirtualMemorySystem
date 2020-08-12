@@ -25,16 +25,16 @@ public class Frame {
     
     public void allocatePage(Page page){
         deallocatePage();
-        Logger.log(Log.Type.INFO, "Allocating page of process " 
-                    + page.getProcess().getId() + ".");
+        Logger.log(Log.Type.INFO, "Page alllocated.",
+                page.getProcess().getId());
         allocatedPage = page;
         page.setAllocated(this);
     }
     
     public void deallocatePage(){
         if (allocatedPage != null){
-            Logger.log(Log.Type.INFO, "Deallocating page of process " 
-                    + allocatedPage.getProcess().getId() + ".");
+            Logger.log(Log.Type.INFO, "Page deallocated.",
+                allocatedPage.getProcess().getId());
             allocatedPage.setDeallocated();
             allocatedPage = null;
         }
@@ -53,7 +53,7 @@ public class Frame {
     }
     
     public String toString(){
-        String string = "Frame Address: " + address + "\n";
+        String string = "Frame Address: " + (address * 1024) + "\n";
         if (allocatedPage == null){
             string += "Unused";
         } else {
@@ -64,12 +64,12 @@ public class Frame {
     }
     
     public String toHTML(){
-        String string = "Frame Address: " + address + "<br/>";
+        String string = "Frame Address: " + (address * 1024) + "<br>";
         if (allocatedPage == null){
-            string += "Unused";
+            string += "Unused<br>";
         } else {
-            string += "Allocated Page:<br/>";
-            string += allocatedPage.toString();
+            string += "Allocated Page:<br>";
+            string += allocatedPage.toHTML();
         }
         return string;
     }

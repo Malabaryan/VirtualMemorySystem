@@ -39,21 +39,19 @@ public class Parameters {
     }
     
     private FethPolicy fethPolicy = FethPolicy.DEMAND;
-    private PlacementPolicy placementPolicy = PlacementPolicy.NEXT;
+    private PlacementPolicy placementPolicy = PlacementPolicy.FIRST;
     private ReplacementPolicy replacementPolicy = ReplacementPolicy.FIFO;
     private ReplacementScope replacementScope = ReplacementScope.GLOBAL;
     private CleaningPolicy cleaningPolicy = CleaningPolicy.DEMAND;
     
     private int multiProgramingDegree = 5;
     
-    private int physicalMemory = 2048;
-    private int maxVirtualMemory = 1000;
+    private int physicalMemory = 1024 * 20;
+    private int maxVirtualMemory = 1024 * 40;
     private int pageSize = 64;
     
-    private int maxQueueReadyProccesses = 1;
-    
-    private int minResidentSet = 1;
-    private int maxResidentSet = 5;
+    private int minResidentSet = 0;
+    private int maxResidentSet = 0;
     
     public Parameters(){
         
@@ -121,14 +119,6 @@ public class Parameters {
 
     public void setMaxVirtualMemory(int aMaxVirtualMemory) {
         maxVirtualMemory = aMaxVirtualMemory;
-    }
-
-    public int getMaxQueueReadyProccesses() {
-        return maxQueueReadyProccesses;
-    }
-
-    public void setMaxQueueReadyProccesses(int aMaxQueueReadyProccesses) {
-        maxQueueReadyProccesses = aMaxQueueReadyProccesses;
     }
 
     public int getPageSize() {

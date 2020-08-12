@@ -20,6 +20,9 @@ public class Process {
     
     private final ArrayList<Page> pageTable;
     
+    private int accessCount;
+    private int pageFaultCount;
+    
     public Process(VMS system, String id, int memoryRequired, int priority){
         this.system = system;
         this.id = id;
@@ -55,5 +58,38 @@ public class Process {
     
     public ArrayList<Page> getPages(){
         return this.pageTable;
+    }
+    
+    public int getMemoryRequired(){
+        return this.memoryRequired;
+    }
+    
+    public void increasePageFaultCount(){
+        this.pageFaultCount++;
+    }
+    
+    public void increaseAccessCount(){
+        this.accessCount++;
+    }
+    
+    public int getAccessCount(){
+        return this.accessCount;
+    }
+    
+    public int getPageFaultCount(){
+        return this.pageFaultCount;
+    }
+    
+    public float getPageFaultPercentage(){
+        return 100 * ((float) this.pageFaultCount) / ((float) this.accessCount);
+    }
+    
+    public Page getNextTo(Page page){
+        for (int i = 0; i < pageTable.size() - 1; i++){
+            if(pageTable.get(i) == page){
+                return pageTable.get(i + 1);
+            }
+        }
+        return null;
     }
 }

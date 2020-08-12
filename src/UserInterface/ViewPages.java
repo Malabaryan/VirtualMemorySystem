@@ -29,6 +29,19 @@ public class ViewPages extends javax.swing.JDialog {
         this.setLocationRelativeTo(null);
     }
     
+    public void update(){
+        updateConsole();
+        updatePageViewer();
+    }
+    
+    public void updateConsole(){
+        /*
+        String processId = (String) CBProcessesNames.getSelectedItem();
+        if (processId != null)
+            this.console.setText(Logging.Logger.getProcessLogs(processId));
+        */
+    }
+    
     public void updatePageViewer(){
         String processId = (String) CBProcessesNames.getSelectedItem();
         if (processId != null){
@@ -38,6 +51,8 @@ public class ViewPages extends javax.swing.JDialog {
                             pageViewer.getWidth(),
                             processId
                     );
+            if(frameObjects == null)
+                return;
             ((VirtualMemorySystem.MemoryViewer) pageViewer).setFrameObjects(frameObjects);
             pageViewer.repaint();
         }
@@ -82,7 +97,7 @@ public class ViewPages extends javax.swing.JDialog {
         );
         pageViewerLayout.setVerticalGroup(
             pageViewerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 307, Short.MAX_VALUE)
+            .addGap(0, 318, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -95,7 +110,7 @@ public class ViewPages extends javax.swing.JDialog {
                     .addComponent(pageViewer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 251, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 303, Short.MAX_VALUE)
                         .addComponent(jLabel2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(CBProcessesNames, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)))

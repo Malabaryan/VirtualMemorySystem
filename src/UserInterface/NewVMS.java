@@ -13,6 +13,7 @@ import Model.Parameters;
  */
 public class NewVMS extends javax.swing.JDialog {
     Parameters newVMSParam;
+    Parameters resultParam;
     /**
      * Creates new form NewVMS
      * @param parent
@@ -20,14 +21,28 @@ public class NewVMS extends javax.swing.JDialog {
      */
     public NewVMS(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        newVMSParam = new Parameters();
+        this.newVMSParam = new Parameters();
+        this.resultParam = null;
         initComponents();
         this.setLocationRelativeTo(null);
+        
+        
+        CBFetchPolicy.setToolTipText("<html>Determines when a page should be brought into main memory.<br>• Demand paging only brings pages into main memory when a reference is made to a location on the page (paging on demand only).<br>• Prepaging brings in more pages than needed.<br>");
+        CBPlacementPolicy.setToolTipText("<html>Determines where in real memory a process piece is to reside<br>• First available - Searches from the start of the memory.<br>• Next available - Searches from where the last placement was done.<br>");
+        CBReplacementPolicy.setToolTipText("<html>Determines the algorithm for the selection of pages to replace<br>• FIFO - First In First Out.<br>• LRU - Least Recently Used.<br>• LFU - Least Frequently Used.<br>• MRU - Most Recently Used.<br>• Second-chance - A simple modification to FIFO that avoids the problem of throwing out a heavily used page is to inspect the R bit of the oldest page.<br>");
+        CBReplacementScope.setToolTipText("<html>The scope of a replacement strategy can be categorized as:<br>• Global - Considers all unlocked pages in main memory.<br>• Local - Chooses only among the resident pages of the process that generated the page fault.<br>");
+        CMCleaningPolicy.setToolTipText("<html>Determines when a modified page should be written out to secondary memory.<br>• Demand - A page is written out to secondary memory only when it has been selected for replacement.<br>• Pre-cleaning - Allows the writing of pages in batches every 20 seconds.<br>");
+        SPLoadControl.setToolTipText("Determines the number of processes that will be resident in main memory.");
+        SPPageSize.setToolTipText("Determines the size of the frames and pages which divide the memory.");
+        SPPhysicalMemory.setToolTipText("Determines the amount of memory available to allocate.");
+        SPRSMMax.setToolTipText("Determines the maximum amount of frames allocated to the process that are on main memory.");
+        SPRSMMin.setToolTipText("Determines the minimum amount of frames allocated to the process that are on main memory. (This is not enforced)");
+        SPVirtualMemory.setToolTipText("Determines the amount of virtual memory available for all the processes.");
     }
     
     public Parameters showDialog(){
         setVisible(true);
-        return newVMSParam;
+        return resultParam;
     }
 
     /**
@@ -43,6 +58,18 @@ public class NewVMS extends javax.swing.JDialog {
         jSpinner3 = new javax.swing.JSpinner();
         jComboBox7 = new javax.swing.JComboBox<>();
         jLabel6 = new javax.swing.JLabel();
+        jLabel22 = new javax.swing.JLabel();
+        jLabel21 = new javax.swing.JLabel();
+        jLabel24 = new javax.swing.JLabel();
+        jLabel18 = new javax.swing.JLabel();
+        jLabel17 = new javax.swing.JLabel();
+        jLabel19 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel26 = new javax.swing.JLabel();
+        jLabel25 = new javax.swing.JLabel();
+        jLabel23 = new javax.swing.JLabel();
+        jLabel20 = new javax.swing.JLabel();
+        jLabel27 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         btn_Cancel = new javax.swing.JToggleButton();
         btn_Create = new javax.swing.JToggleButton();
@@ -73,6 +100,30 @@ public class NewVMS extends javax.swing.JDialog {
         jComboBox7.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         jLabel6.setText("KB");
+
+        jLabel22.setText("Virtual Memory (KB)");
+
+        jLabel21.setText("Physical Memory (KB)");
+
+        jLabel24.setText("Cleaning Policy");
+
+        jLabel18.setText("Placement Policy");
+
+        jLabel17.setText("Fetch Policy");
+
+        jLabel19.setText("Replacement Policy");
+
+        jLabel3.setText("Page Size (KB)");
+
+        jLabel26.setText("Minimum");
+
+        jLabel25.setText("Load Control");
+
+        jLabel23.setText("Replacement Scope ");
+
+        jLabel20.setText("Resident Set Management");
+
+        jLabel27.setText("Maximum");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -133,6 +184,12 @@ public class NewVMS extends javax.swing.JDialog {
 
         jLabel14.setText("Maximum");
 
+        SPRSMMin.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        SPRSMMin.setEditor(new javax.swing.JSpinner.NumberEditor(SPRSMMin, ""));
+
+        SPRSMMax.setModel(new javax.swing.SpinnerNumberModel(0, 0, null, 1));
+        SPRSMMax.setEditor(new javax.swing.JSpinner.NumberEditor(SPRSMMax, ""));
+
         CBReplacementScope.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Global", "Local" }));
         CBReplacementScope.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -152,52 +209,48 @@ public class NewVMS extends javax.swing.JDialog {
         jLabel16.setText("Virtual Memory (KB)");
 
         SPLoadControl.setModel(new javax.swing.SpinnerNumberModel(5, 0, null, 1));
+        SPLoadControl.setEditor(new javax.swing.JSpinner.NumberEditor(SPLoadControl, ""));
 
-        SPPhysicalMemory.setModel(new javax.swing.SpinnerNumberModel(1024, 1024, null, 1024));
+        SPPhysicalMemory.setModel(new javax.swing.SpinnerNumberModel(20480, 1024, null, 1024));
+        SPPhysicalMemory.setEditor(new javax.swing.JSpinner.NumberEditor(SPPhysicalMemory, ""));
 
-        SPVirtualMemory.setModel(new javax.swing.SpinnerNumberModel(1024, 1024, null, 1024));
+        SPVirtualMemory.setModel(new javax.swing.SpinnerNumberModel(40960, 1024, null, 1024));
+        SPVirtualMemory.setEditor(new javax.swing.JSpinner.NumberEditor(SPVirtualMemory, ""));
 
         jLabel2.setText("Page Size (KB)");
+
+        SPPageSize.setModel(new javax.swing.SpinnerNumberModel(64, 1, null, 64));
+        SPPageSize.setEditor(new javax.swing.JSpinner.NumberEditor(SPPageSize, ""));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btn_Create)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btn_Cancel))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
+                                .addContainerGap()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7)
+                                    .addComponent(jLabel8)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel15)
+                                    .addComponent(jLabel16)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel12)
+                                    .addComponent(jLabel13)
                                     .addComponent(jLabel14)
-                                    .addComponent(jLabel13)))
-                            .addComponent(jLabel16)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel10)
-                            .addComponent(jLabel11))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btn_Create)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btn_Cancel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel12)
-                                            .addComponent(jLabel15))
-                                        .addGap(117, 117, 117))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addGap(183, 183, 183)))
+                                    .addComponent(jLabel11))
+                                .addGap(117, 117, 117)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(SPPageSize)
                                     .addComponent(CBPlacementPolicy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -209,8 +262,12 @@ public class NewVMS extends javax.swing.JDialog {
                                     .addComponent(CMCleaningPolicy, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(SPLoadControl, javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(SPPhysicalMemory, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(SPVirtualMemory))))
-                        .addGap(19, 19, 19))))
+                                    .addComponent(SPVirtualMemory)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jLabel1)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -274,11 +331,17 @@ public class NewVMS extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_CreateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CreateActionPerformed
+        newVMSParam.setMinResidentSet((Integer) SPRSMMin.getValue());
+        newVMSParam.setMaxResidentSet((Integer) SPRSMMax.getValue());
+        newVMSParam.setMultiProgramingDegree((Integer) SPLoadControl.getValue());
+        newVMSParam.setPhysicalMemory((Integer) SPPhysicalMemory.getValue());
+        newVMSParam.setMaxVirtualMemory((Integer) SPVirtualMemory.getValue());
+        newVMSParam.setPageSize((Integer) SPPageSize.getValue());
+        this.resultParam = newVMSParam;
         this.dispose();
     }//GEN-LAST:event_btn_CreateActionPerformed
 
     private void btn_CancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_CancelActionPerformed
-        newVMSParam = null;
         this.dispose();
     }//GEN-LAST:event_btn_CancelActionPerformed
 
@@ -299,7 +362,7 @@ public class NewVMS extends javax.swing.JDialog {
                 newVMSParam.setPlacementPolicy(Parameters.PlacementPolicy.FIRST);
                 break;
             case 1:
-                newVMSParam.setPlacementPolicy(Parameters.PlacementPolicy.FIRST);
+                newVMSParam.setPlacementPolicy(Parameters.PlacementPolicy.NEXT);
                 break;
         }
     }//GEN-LAST:event_CBPlacementPolicyActionPerformed
@@ -369,7 +432,19 @@ public class NewVMS extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel14;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel17;
+    private javax.swing.JLabel jLabel18;
+    private javax.swing.JLabel jLabel19;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel20;
+    private javax.swing.JLabel jLabel21;
+    private javax.swing.JLabel jLabel22;
+    private javax.swing.JLabel jLabel23;
+    private javax.swing.JLabel jLabel24;
+    private javax.swing.JLabel jLabel25;
+    private javax.swing.JLabel jLabel26;
+    private javax.swing.JLabel jLabel27;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;

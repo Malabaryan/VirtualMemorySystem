@@ -6,12 +6,8 @@
 package Main;
 
 import Controller.MainController;
-import Logging.Logger;
-import Model.*;
 import UserInterface.VirtualMemorySystem;
-import java.util.logging.Level;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 
 /**
  *
@@ -23,13 +19,12 @@ public class VMSMain {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        
-        //UI Start
-        VirtualMemorySystem vmsWindow;
-        vmsWindow = new VirtualMemorySystem(MainController.getInstance());
         try {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception ex) {}
+        //UI Start
+        VirtualMemorySystem vmsWindow;
+        vmsWindow = new VirtualMemorySystem(MainController.getInstance());
         vmsWindow.setVisible(true);
         
     }

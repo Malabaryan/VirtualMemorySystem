@@ -5,19 +5,41 @@
  */
 package UserInterface;
 
+import Controller.MainController;
 import Model.Parameters;
+import Model.VMS;
 
 /**
  *
  * @author Kenneth
  */
 public class Statistics extends javax.swing.JDialog {
-    /**
-     * Creates new form NewVMS
-     */
-    public Statistics(java.awt.Frame parent, boolean modal) {
+    private MainController mainController;
+    
+    public Statistics(java.awt.Frame parent, boolean modal, MainController mainController) {
         super(parent, modal);
         initComponents();
+        this.mainController = mainController;
+        updateFields();
+        this.setLocationRelativeTo(null);
+    }
+    
+    public void updateFields(){
+        javax.swing.table.DefaultTableModel model =
+                new javax.swing.table.DefaultTableModel(
+                    mainController.getProcessesStatSummary(),
+                new String [] {
+                    "Process ID", " Allocated/Total Memory", "Access Count", "Page Fault Count", "Page Fault Percentage"
+                }
+        );
+        processStatsTable.setModel(model);
+        
+        //STATS
+        LBPageFaults.setText(mainController.getTotalPageFaults());
+        LBTotalMemoryAccesses.setText(mainController.getTotalMemoryAccesses());
+        LBPageFaultPercentage.setText(mainController.getTotalPageFaultPercentage());
+        LBPhysicalMemoryUsed.setText(mainController.getPhysicalMemoryUsed());
+        LBVirtualMemoryUsed.setText(mainController.getVirtualMemoryUsed());
     }
 
     /**
@@ -32,8 +54,17 @@ public class Statistics extends javax.swing.JDialog {
         jSpinner1 = new javax.swing.JSpinner();
         jLabel1 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        processStatsTable = new javax.swing.JTable();
         jLabel5 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        LBPageFaults = new javax.swing.JLabel();
+        LBTotalMemoryAccesses = new javax.swing.JLabel();
+        LBPageFaultPercentage = new javax.swing.JLabel();
+        LBPhysicalMemoryUsed = new javax.swing.JLabel();
+        LBVirtualMemoryUsed = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -41,7 +72,7 @@ public class Statistics extends javax.swing.JDialog {
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 18)); // NOI18N
         jLabel1.setText("Statistics");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        processStatsTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
@@ -49,9 +80,27 @@ public class Statistics extends javax.swing.JDialog {
 
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(processStatsTable);
 
-        jLabel5.setText("jLabel5");
+        jLabel5.setText("Total Page Faults:");
+
+        jLabel2.setText("Total Memory Accesses:");
+
+        jLabel3.setText("Physical Memory Used:");
+
+        jLabel4.setText("Virtual Memory Used:");
+
+        jLabel6.setText("Page Fault Percentage:");
+
+        LBPageFaults.setText("--");
+
+        LBTotalMemoryAccesses.setText("--");
+
+        LBPageFaultPercentage.setText("--");
+
+        LBPhysicalMemoryUsed.setText("--");
+
+        LBVirtualMemoryUsed.setText("--");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -60,12 +109,25 @@ public class Statistics extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 505, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 552, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jLabel5))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel2)
+                                    .addComponent(jLabel6)
+                                    .addComponent(jLabel3)
+                                    .addComponent(jLabel4))
+                                .addGap(26, 26, 26)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(LBVirtualMemoryUsed)
+                                    .addComponent(LBPhysicalMemoryUsed)
+                                    .addComponent(LBPageFaultPercentage)
+                                    .addComponent(LBTotalMemoryAccesses)
+                                    .addComponent(LBPageFaults))))
+                        .addGap(0, 378, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -74,20 +136,47 @@ public class Statistics extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 318, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 335, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel5)
-                .addContainerGap(13, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(LBPageFaults))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(LBTotalMemoryAccesses))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(LBPageFaultPercentage))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(LBPhysicalMemoryUsed))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel4)
+                    .addComponent(LBVirtualMemoryUsed))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel LBPageFaultPercentage;
+    private javax.swing.JLabel LBPageFaults;
+    private javax.swing.JLabel LBPhysicalMemoryUsed;
+    private javax.swing.JLabel LBTotalMemoryAccesses;
+    private javax.swing.JLabel LBVirtualMemoryUsed;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JTable processStatsTable;
     // End of variables declaration//GEN-END:variables
 }

@@ -49,9 +49,9 @@ public class Log {
    
     public String toString(boolean showProcessId){
         return getTimeStamp() 
-                + (showProcessId && !processId.equals("") ?  
-                "[" + getProcessId() + "][" : "[") 
-                + getType().name() + "]: " + getDetail();
+                + "[" + getType().name() + "]"
+                + (showProcessId && !processId.equals("") ? "[" + getProcessId() + "]" : "") 
+                + ": " + getDetail();
     }
     
     public String toString(){
